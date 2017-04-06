@@ -34,20 +34,22 @@ public class AuthenticationFilter implements Filter {
     if (authentication != null) {
       HttpServletRequest request = (HttpServletRequest) req;
       HttpServletResponse response = (HttpServletResponse) res;
-      Collection<GrantedAuthority> authorities = getAuthorities();
+      Collection<GrantedAuthority> authorities = getAuthorities(authentication);
       AppAuthentication appAuthentication = new AppAuthentication(authentication, authorities);
       SecurityContextHolder.getContext().setAuthentication(appAuthentication);
     }
     chain.doFilter(req, res);
   }
 
-  private Collection<GrantedAuthority> getAuthorities() {
+  private Collection<GrantedAuthority> getAuthorities(Authentication authentication) {
 
     Set<AccessControl> permissions = new HashSet<>();
     Set<GrantedAuthority> authorities = new HashSet<>();
-    accessControlProvider.collectAccessControls("Admin", permissions);
-    for (AccessControl accessControl : permissions) {
-      authorities.add(new AccessControlGrantedAuthority(accessControl));
+    for (GrantedAuthority authority : authentication.getAuthorities()) {
+      accessControlProvider.collectAccessControls(authority.getAuthority(), permissions);
+      for (AccessControl accessControl : permissions) {
+        authorities.add(new AccessControlGrantedAuthority(accessControl));
+      }
     }
     return authorities;
   }

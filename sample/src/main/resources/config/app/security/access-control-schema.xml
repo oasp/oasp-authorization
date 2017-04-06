@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <access-control-schema>
-  <group id="ReadMasterData" type="group">
+  <group id="ROLE_ReadMasterData" type="group">
     <permissions>
-      <permission id="ReadTest"/>
+      <permission id="ROLE_ReadTest"/>
     </permissions>
   </group>
 
-  <group id="User" type="role">
+  <group id="ROLE_User" type="role">
     <inherits>
-      <group-ref>ReadMasterData</group-ref>
+      <group-ref>ROLE_ReadMasterData</group-ref>
     </inherits>
     <permissions>
-      <permission id="ReadUserData"/>
+      <permission id="ROLE_ReadUserData"/>
     </permissions>
   </group>
 
-  <group id="Admin" type="role">
+  <group id="ROLE_Admin" type="role">
     <inherits>
-      <group-ref>ReadMasterData</group-ref>
-      <group-ref>User</group-ref>
+      <group-ref>ROLE_ReadMasterData</group-ref>
+      <group-ref>ROLE_User</group-ref>
     </inherits>
     <permissions>
-      <permission id="ReadAdminData"/>
+      <permission id="ROLE_ReadAdminData"/>
     </permissions>
   </group>
 </access-control-schema>
